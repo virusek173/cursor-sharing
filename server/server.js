@@ -8,21 +8,19 @@ console.log('Server listening on 7071 port...');
 wss.on('error', console.error);
 
 wss.on('connection', (ws) => {
-    const sender = uuid();
-    const color = Math.floor(Math.random() * 361);
-    const metadata = { sender, color };
-    console.log(`Client with sender ${sender} connected!`)
-    clients.set(ws, metadata);      
-    
-    ws.on('message', (buf) => {
-        const data = JSON.parse(buf.toString());
-        const { cursorCoords } = data
-        const payload = { cursorCoords, color, sender }
+  const sender = uuid();
+  const color = Math.floor(Math.random() * 361);
+  const metadata = { sender, color };
+  console.log(`Client with sender ${sender} connected!`);
+  clients.set(ws, metadata);
 
-        clients.forEach((_, _ws) => {
-            _ws.send(JSON.stringify(payload));
-        }) 
-    })
-})
+  ws.on('message', (buf) => {
+    const data = JSON.parse(buf.toString());
+    const { cursorCoords } = data;
+    const payload = { cursorCoords, color, sender };
 
-
+    clients.forEach((_, _ws) => {
+      _ws.send(JSON.stringify(payload));
+    });
+  });
+});
