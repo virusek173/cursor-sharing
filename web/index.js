@@ -38,7 +38,7 @@ const getOrCreateCursor = (color, sender) => {
 };
 
 const onMouseMove = (event) => {
-  const cursorCoords = { x: event.clientX, y: event.clientY };
+  const cursorCoords = { x: event.clientX + 1, y: event.clientY + 1 };
   console.log(cursorCoords, new Date());
   socket.send(JSON.stringify({ cursorCoords }));
 };

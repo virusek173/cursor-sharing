@@ -20,7 +20,9 @@ wss.on('connection', (ws) => {
     const payload = { cursorCoords, color, sender };
 
     clients.forEach((_, _ws) => {
-      _ws.send(JSON.stringify(payload));
+      if (ws !== _ws) {
+        _ws.send(JSON.stringify(payload));
+      }
     });
   });
 });
